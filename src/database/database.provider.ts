@@ -29,17 +29,17 @@ const config: DataSourceOptions = {
   synchronize: false,
   logging: false,
   namingStrategy: new SnakeNamingStrategy(),
-  entities: [__dirname + `/modules/**/*.entity.${currentFileExt}`],
+  entities: [__dirname + `/**/*.entity.${currentFileExt}`],
   migrations: [__dirname + `/migrations/*.${currentFileExt}`],
   migrationsTableName: 'new_migrations',
 };
+
+export const appDataSource = new DataSource(config);
 
 export const DatabaseProviders = [
   {
     provide: 'DATA_SOURCE',
     useFactory: async () => {
-      const appDataSource = new DataSource(config);
-
       return appDataSource.initialize();
     },
   },
