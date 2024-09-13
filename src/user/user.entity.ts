@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+import { IUserResponse } from './interfaces/user.interfaces';
 
 @Entity('users')
 export class UserEntity {
@@ -34,4 +35,12 @@ export class UserEntity {
 
   @UpdateDateColumn()
   readonly updatedAt: Date;
+
+  static FromUser(user: UserEntity): IUserResponse {
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    };
+  }
 }
