@@ -30,6 +30,9 @@ export class UserEntity {
   @Column()
   password: string;
 
+  @Column()
+  salt: string;
+
   @CreateDateColumn()
   readonly createdAt: Date;
 
@@ -41,6 +44,14 @@ export class UserEntity {
       id: user.id,
       username: user.username,
       email: user.email,
+    };
+  }
+  static FromUserWithPassWord(user: UserEntity): IUserResponse {
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      password: user.password,
     };
   }
 }
