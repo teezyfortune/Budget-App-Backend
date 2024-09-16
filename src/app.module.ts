@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { Helper } from './helper/helper.provider';
 import { HelperModule } from './helper/helper.module';
+import { DynamoDbModule } from './dynamo-db/dynamo-db.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { HelperModule } from './helper/helper.module';
     UserModule,
     AuthModule,
     HelperModule,
+    DynamoDbModule,
   ],
   controllers: [AppController],
   providers: [AppService, ...DatabaseProviders, Helper],
