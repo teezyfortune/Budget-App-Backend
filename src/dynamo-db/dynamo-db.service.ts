@@ -6,6 +6,7 @@ import {
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { IAddTodo } from './dynamo-db.interface';
+import * as uuV4 from 'uuid';
 
 @Injectable()
 export class TodoService {
@@ -19,7 +20,7 @@ export class TodoService {
       new PutCommand({
         TableName: 'Todo',
         Item: {
-          id: 'todoItemkey@1236',
+          partKey: uuV4.v4(),
           tile: params.title,
           description: params.description,
           done: params.done,

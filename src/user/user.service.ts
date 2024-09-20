@@ -11,7 +11,7 @@ export class UserService {
     private helper: Helper,
   ) {}
 
-  async createUser(data: IUser): Promise<IUserResponse> {
+  async save(data: IUser): Promise<IUserResponse> {
     try {
       const password = await this.helper.hashPassword(data.password);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

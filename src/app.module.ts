@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { Helper } from './helper/helper.provider';
 import { HelperModule } from './helper/helper.module';
 import { DynamoDbModule } from './dynamo-db/dynamo-db.module';
+import { BudgetModule } from './budget/budget.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { DynamoDbModule } from './dynamo-db/dynamo-db.module';
     AuthModule,
     HelperModule,
     DynamoDbModule,
+    BudgetModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService, ...DatabaseProviders, Helper],

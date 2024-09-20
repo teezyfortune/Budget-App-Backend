@@ -13,7 +13,7 @@ export class UserController {
     @Res() res: Response,
   ) {
     try {
-      await this.userService.createUser(createUserDto);
+      await this.userService.save(createUserDto);
       return res
         .status(201)
         .json({ status: 'success', message: 'User created successfully' });
