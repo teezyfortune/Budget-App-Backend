@@ -31,13 +31,17 @@ export class UserService {
     email: string,
     withPassword?: boolean,
   ): Promise<IUserResponse | null> {
-    const user = await this.userRepository.findOne({ where: { email } });
-    if (!user) {
-      throw new Error('User not found');
+    try {
+      const user = await this.userRepository.findOne({ where: { email } });
+      if (!user) {
+        throw new Error('User not found');
+      }
+      if (withPassword) {
+        return UserEntity.FromUserWithPassWord(user);
+      }
+      return UserEntity.FromUser(user);
+    } catch (e) {
+      throw new Error(e);
     }
-    if (withPassword) {
-      return UserEntity.FromUserWithPassWord(user);
-    }
-    return UserEntity.FromUser(user);
   }
 }

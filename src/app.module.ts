@@ -11,6 +11,7 @@ import { HelperModule } from './helper/helper.module';
 import { DynamoDbModule } from './dynamo-db/dynamo-db.module';
 import { BudgetModule } from './budget/budget.module';
 import { CategoryModule } from './category/category.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CategoryModule } from './category/category.module';
     DynamoDbModule,
     BudgetModule,
     CategoryModule,
+    TransactionsModule,
   ],
   controllers: [AppController],
   providers: [AppService, ...DatabaseProviders, Helper],

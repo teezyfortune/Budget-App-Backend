@@ -56,11 +56,14 @@ export class AuthService {
   }
   private getUserToken(payload: any) {
     return {
-      accessToken: this.signToken(payload, { expiresIn: '60s' }),
+      accessToken: this.signToken(payload, { expiresIn: '180s' }),
       refreshToken: this.signToken(payload, { expiresIn: '1d' }),
     };
   }
 
+  public verifyToken(token: string): Promise<any> {
+    return this.jwtService.verify(token);
+  }
   private isUserWithPassword(user: IUserResponse): user is IUserResponse {
     return (user as IUserResponse).password !== undefined;
   }

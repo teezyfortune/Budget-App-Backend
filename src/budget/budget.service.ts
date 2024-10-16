@@ -13,8 +13,8 @@ export class BudgetService {
   async save(budget: Ibudget): Promise<BudgetEntity> {
     try {
       return this.budegtRepository.save(budget);
-    } catch (e) {
-      throw new e();
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 }

@@ -6,5 +6,5 @@ export class CreateCategoryDto {
   name: string;
   @IsString()
   @IsNotEmpty()
-  user: string;
+  userId: string;
 }

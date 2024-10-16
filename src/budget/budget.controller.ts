@@ -1,4 +1,11 @@
-import { Controller, Post, Response, Body, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Response,
+  Body,
+  HttpCode,
+  Request,
+} from '@nestjs/common';
 import { BudgetService } from './budget.service';
 import { Response as response } from 'express';
 import { CreateBudgetDto } from './dto/create-budget.dto';
@@ -11,9 +18,10 @@ export class BudgetController {
   @HttpCode(201)
   async createBudget(
     @Body() createdBudget: CreateBudgetDto,
+    @Request() req: any,
     @Response() res: response,
   ) {
-    await this.budegtService.save(createdBudget);
+    await this.budegtService.save({ ...createdBudget, user: req.user.id });
     res.send('Budget created successfully');
   }
 }

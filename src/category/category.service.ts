@@ -9,7 +9,9 @@ export class CategoryService {
     private categoryRepository: Repository<CategoryEntity>,
   ) {}
 
-  async save(data: CategoryEntity): Promise<CategoryEntity> {
+  async save(
+    data: Omit<CategoryEntity, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<CategoryEntity> {
     try {
       const result = await this.categoryRepository.save(data);
       return result;
