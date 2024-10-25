@@ -1,13 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { TransactionEntity } from './transaction.entity';
-import { UserEntity } from 'src/user/user.entity';
+import { BudgetService } from 'src/budget/budget.service';
 
 export interface ItransactionData {
-  user: UserEntity;
+  budget: string;
   amount: string;
   category: string;
-  type: string;
   description: string;
 }
 
@@ -16,11 +15,20 @@ export class TransactionsService {
   constructor(
     @Inject('TRANSACTIONS_REPOSITORY')
     private transactionRepos: Repository<TransactionEntity>,
+    private budgetService: BudgetService,
   ) {}
 
-  async save(txData: ItransactionData): Promise<TransactionEntity> {
+  async save(
+    txData: Omit<ItransactionData, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<boolean> {
     try {
-      return this.transactionRepos.save(txData);
+      await this.transactionRepos.save({
+        ...txData,
+      });
+      return this.budgetService.updateBalance(
+        txData.budget,
+        parseFloat(txData.amount),
+      );
     } catch (error) {
       {
         throw new Error(error);
@@ -31,13 +39,9 @@ export class TransactionsService {
   async findAllById(value: string): Promise<TransactionEntity[]> {
     try {
       return this.transactionRepos.find({
-        relations: {
-          user: true,
-        },
+        relations: ['budget'],
         where: {
-          user: {
-            id: value,
-          },
+          budget: value,
         },
       });
     } catch (error) {

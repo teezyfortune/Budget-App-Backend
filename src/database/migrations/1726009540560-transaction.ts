@@ -4,7 +4,6 @@ import {
   Table,
   TableForeignKey,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 
 export class Transaction1726009540560 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -18,10 +17,10 @@ export class Transaction1726009540560 implements MigrationInterface {
             isPrimary: true,
             isGenerated: false,
             generationStrategy: 'uuid',
-            default: `'${uuidv4()}'`,
+            default: 'uuid_generate_v4()',
           },
           {
-            name: 'user_id',
+            name: 'budget_id',
             type: 'uuid',
             isNullable: false,
           },
@@ -35,10 +34,6 @@ export class Transaction1726009540560 implements MigrationInterface {
             name: 'category_id',
             type: 'uuid',
             isNullable: false,
-          },
-          {
-            name: 'type',
-            type: 'varchar',
           },
           {
             name: 'description',
@@ -61,9 +56,9 @@ export class Transaction1726009540560 implements MigrationInterface {
     await queryRunner.createForeignKey(
       'transactions',
       new TableForeignKey({
-        columnNames: ['user_id'],
+        columnNames: ['budget_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'users',
+        referencedTableName: 'budgets',
         onDelete: 'CASCADE',
       }),
     );

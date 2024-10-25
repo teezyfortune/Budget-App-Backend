@@ -1,5 +1,4 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 
 export class User1725995667454 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -13,7 +12,7 @@ export class User1725995667454 implements MigrationInterface {
             isPrimary: true,
             isGenerated: false,
             generationStrategy: 'uuid',
-            default: `'${uuidv4()}'`,
+            default: 'uuid_generate_v4()',
           },
           {
             name: 'username',

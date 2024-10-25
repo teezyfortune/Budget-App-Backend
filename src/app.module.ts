@@ -26,6 +26,7 @@ import { TransactionsModule } from './transactions/transactions.module';
     BudgetModule,
     CategoryModule,
     TransactionsModule,
+    HelperModule,
   ],
   controllers: [AppController],
   providers: [AppService, ...DatabaseProviders, Helper],

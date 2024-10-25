@@ -1,5 +1,4 @@
 import { BudgetEntity } from 'src/budget/budegt.entity';
-import { TransactionEntity } from 'src/transactions/transaction.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -20,9 +19,6 @@ export class UserEntity {
 
   @OneToMany(() => BudgetEntity, (b) => b.user)
   budgets: BudgetEntity[];
-
-  @OneToMany(() => TransactionEntity, (tx) => tx.user)
-  transactions: TransactionEntity[];
 
   @Column()
   email: string;

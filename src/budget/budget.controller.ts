@@ -4,13 +4,17 @@ import {
   Response,
   Body,
   HttpCode,
-  Request,
+  UseGuards,
+  HttpStatus,
 } from '@nestjs/common';
 import { BudgetService } from './budget.service';
 import { Response as response } from 'express';
 import { CreateBudgetDto } from './dto/create-budget.dto';
+import { JwtAuthGuard } from 'src/auth/auth.auth-guards';
+import { GetUserToken } from 'src/auth/aut.get-user.decorator';
 
 @Controller('budget')
+@UseGuards(JwtAuthGuard)
 export class BudgetController {
   constructor(private budegtService: BudgetService) {}
 
@@ -18,10 +22,12 @@ export class BudgetController {
   @HttpCode(201)
   async createBudget(
     @Body() createdBudget: CreateBudgetDto,
-    @Request() req: any,
+    @GetUserToken() user: any,
     @Response() res: response,
   ) {
-    await this.budegtService.save({ ...createdBudget, user: req.user.id });
-    res.send('Budget created successfully');
+    await this.budegtService.save({ ...createdBudget, user: user.sub });
+    res
+      .status(HttpStatus.CREATED)
+      .json({ status: 'success', message: 'Budget created successfully' });
   }
 }

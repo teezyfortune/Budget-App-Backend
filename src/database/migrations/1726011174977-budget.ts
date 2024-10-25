@@ -4,7 +4,6 @@ import {
   Table,
   TableForeignKey,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 
 export class Budget1726011174977 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -16,13 +15,18 @@ export class Budget1726011174977 implements MigrationInterface {
             name: 'id',
             type: 'uuid',
             isPrimary: true,
-            isGenerated: false,
+            isGenerated: true,
             generationStrategy: 'uuid',
-            default: `'${uuidv4()}'`,
+            default: 'uuid_generate_v4()',
           },
           {
             name: 'user_id',
             type: 'uuid',
+            isNullable: false,
+          },
+          {
+            name: 'name',
+            type: 'varchar',
             isNullable: false,
           },
           {
@@ -32,15 +36,9 @@ export class Budget1726011174977 implements MigrationInterface {
             scale: 2,
           },
           {
-            name: 'category_id',
-            type: 'uuid',
-            isNullable: false,
-          },
-          {
-            name: 'type',
+            name: 'month_year',
             type: 'varchar',
-            enum: ['income', 'expense'],
-            default: `'expense'`,
+            isNullable: false,
           },
           {
             name: 'created_at',
@@ -61,15 +59,6 @@ export class Budget1726011174977 implements MigrationInterface {
         columnNames: ['user_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'users',
-        onDelete: 'CASCADE',
-      }),
-    );
-    await queryRunner.createForeignKey(
-      'budgets',
-      new TableForeignKey({
-        columnNames: ['category_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'categories',
         onDelete: 'CASCADE',
       }),
     );

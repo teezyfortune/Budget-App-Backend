@@ -9,7 +9,6 @@ export class TodoController {
   @Post()
   async createItem(@Request() req: request): Promise<any> {
     const data = await this.todoService.createItem(req.body);
-    console.log(data);
     return data;
   }
 }

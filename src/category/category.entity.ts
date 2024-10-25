@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
-  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 
 import { UserEntity } from '../user/user.entity';
@@ -18,7 +18,7 @@ export class CategoryEntity {
   @Column({ name: 'name' })
   name: string;
 
-  @OneToMany(() => UserEntity, (user) => user.id)
+  @ManyToOne(() => UserEntity, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   userId: string;
 

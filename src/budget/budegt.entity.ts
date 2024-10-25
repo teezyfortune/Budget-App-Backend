@@ -6,28 +6,37 @@ import {
   UpdateDateColumn,
   JoinColumn,
   OneToMany,
-  OneToOne,
+  ManyToOne,
+  VersionColumn,
 } from 'typeorm';
-import { CategoryEntity } from '../category/category.entity';
 import { UserEntity } from '../user/user.entity';
+import { TransactionEntity } from 'src/transactions/transaction.entity';
 
-@Entity('transactions')
+@Entity('budgets')
 export class BudgetEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToMany(() => UserEntity, (user) => user.budgets)
+  @ManyToOne(() => UserEntity, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  @OneToOne(() => CategoryEntity, (cat) => cat.id)
-  @JoinColumn({ name: 'catgory_id' })
-  categoryId: CategoryEntity;
+  @OneToMany(() => TransactionEntity, (tx) => tx.budget)
+  transactions: TransactionEntity[];
+
+  @Column({ name: 'name' })
+  name: string;
 
   @Column({ name: 'amount', type: 'decimal', precision: 10, scale: 2 })
   amount: string;
 
-  @Column({ name: 'month_and_year' })
+  @Column({ name: 'balance', type: 'decimal', precision: 10, scale: 2 })
+  balance: string;
+
+  @VersionColumn({ name: 'version' })
+  version: string;
+
+  @Column({ name: 'month_year' })
   monthAndYear: string;
 
   @CreateDateColumn()

@@ -7,11 +7,14 @@ import {
   Post,
   Request,
   Response,
+  UseGuards,
 } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { JwtAuthGuard } from 'src/auth/auth.auth-guards';
 
 @Controller('transactions')
+@UseGuards(JwtAuthGuard)
 export class TransactionsController {
   constructor(@Inject() private txService: TransactionsService) {}
 
@@ -21,7 +24,7 @@ export class TransactionsController {
     @Request() req: any,
     @Response() res: any,
   ) {
-    await this.txService.save({ ...txData, user: req.user.id });
+    await this.txService.save({ ...txData, budget: req.budget });
     res.status(HttpStatus.CREATED).json({ message: 'Transaction created' });
   }
 

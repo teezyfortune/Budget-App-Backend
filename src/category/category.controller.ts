@@ -12,10 +12,10 @@ import { GetUserToken } from 'src/auth/aut.get-user.decorator';
 import { JwtAuthGuard } from 'src/auth/auth.auth-guards';
 
 @Controller('category')
+@UseGuards(JwtAuthGuard)
 export class CategoryController {
   constructor(@Inject() private catService: CategoryService) {}
   @Post()
-  @UseGuards(JwtAuthGuard)
   async addCategory(
     @Body() createCatdto: CreateCategoryDto,
     @GetUserToken() user: any,
@@ -24,7 +24,6 @@ export class CategoryController {
   ) {
     try {
       await this.catService.save({ ...createCatdto, userId: user.sub });
-      console.log(user);
 
       return res.status(201).json({ message: 'Category created' });
     } catch (e) {

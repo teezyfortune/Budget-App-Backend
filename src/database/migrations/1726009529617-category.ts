@@ -4,7 +4,6 @@ import {
   Table,
   TableForeignKey,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 
 export class Category1726009529617 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -18,7 +17,7 @@ export class Category1726009529617 implements MigrationInterface {
             isPrimary: true,
             isGenerated: false,
             generationStrategy: 'uuid',
-            default: `'${uuidv4()}'`,
+            default: 'uuid_generate_v4()',
           },
           {
             name: 'name',

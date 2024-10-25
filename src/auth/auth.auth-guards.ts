@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
@@ -11,15 +12,19 @@ export class JwtAuthGuard implements CanActivate {
   constructor(@Inject() private authService: AuthService) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest();
-    const token = request.headers.authorization.split(' ')[1];
+    try {
+      const request = context.switchToHttp().getRequest();
+      const token = request.headers.authorization?.split(' ')[1];
 
-    const user = this.authService.verifyToken(token);
-    console.log(user);
-    if (!user) {
-      throw new Error('Unauthorized');
+      if (!token) {
+        throw new UnauthorizedException({ message: 'Invalid or unauthorized' });
+      }
+      const user = this.authService.verifyToken(token);
+
+      request.user = user;
+      return true;
+    } catch (e: any) {
+      throw new UnauthorizedException(`Sorry, your ${e?.message}`);
     }
-    request.user = user;
-    return true;
   }
 }
