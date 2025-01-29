@@ -25,7 +25,7 @@ export class TransactionEntity {
 
   @OneToOne(() => CategoryEntity, (cat) => cat.id)
   @JoinColumn({ name: 'category_id' })
-  cateogryId: string;
+  categoryId: string;
 
   @Column({ name: 'description' })
   description: string;

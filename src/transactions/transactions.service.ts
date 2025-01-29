@@ -6,7 +6,7 @@ import { BudgetService } from 'src/budget/budget.service';
 export interface ItransactionData {
   budget: string;
   amount: string;
-  category: string;
+  categoryId: string;
   description: string;
 }
 
@@ -24,6 +24,7 @@ export class TransactionsService {
     try {
       await this.transactionRepos.save({
         ...txData,
+        categoryId: txData.categoryId,
       });
       return this.budgetService.updateBalance(
         txData.budget,

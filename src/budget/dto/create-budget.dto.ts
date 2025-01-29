@@ -3,7 +3,7 @@ import { UserEntity } from 'src/user/user.entity';
 export class CreateBudgetDto {
   @IsNumber()
   @IsNotEmpty()
-  amount: string;
+  amount: number;
   @IsString()
   @IsNotEmpty()
   user: UserEntity;

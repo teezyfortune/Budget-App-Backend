@@ -28,13 +28,13 @@ export class BudgetEntity {
   name: string;
 
   @Column({ name: 'amount', type: 'decimal', precision: 10, scale: 2 })
-  amount: string;
+  amount: number;
 
   @Column({ name: 'balance', type: 'decimal', precision: 10, scale: 2 })
-  balance: string;
+  balance: number;
 
   @VersionColumn({ name: 'version' })
-  version: string;
+  version: number;
 
   @Column({ name: 'month_year' })
   monthAndYear: string;

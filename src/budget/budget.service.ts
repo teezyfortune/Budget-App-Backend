@@ -1,4 +1,9 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { BudgetEntity } from './budegt.entity';
 import { Repository } from 'typeorm';
 import { Ibudget } from './budegt.interface';
@@ -30,15 +35,38 @@ export class BudgetService {
     }
   }
 
-  async updateBalance(id: string, amount: number): Promise<boolean> {
+  async findOneByIdUserId(
+    user: any,
+    monthAndYear: string,
+  ): Promise<BudgetEntity> {
+    try {
+      return this.budegtRepository.findOneBy({
+        user: { id: user },
+        monthAndYear,
+      });
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async updateBalance(id: string, transactionAmount: number): Promise<boolean> {
     const budget = await this.findOneById(id);
     if (!budget) {
       throw new NotFoundException('Budget not found');
     }
+    const budgetBalance: string = budget.balance.toString();
 
-    budget.balance = (parseFloat(budget.balance) - amount).toFixed(2);
+    if (!(Number(budgetBalance) > 1)) {
+      throw new ForbiddenException('Insufficient budget balance');
+    }
+    const formatedBalance = (
+      parseFloat(budgetBalance) - transactionAmount
+    ).toFixed(2);
+
     budget.version = budget.version + 1;
-    await this.budegtRepository.save(budget);
+    await this.budegtRepository.update(budget.id, {
+      balance: Number(formatedBalance),
+    });
     return true;
   }
 }

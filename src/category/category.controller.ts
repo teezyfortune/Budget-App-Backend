@@ -1,24 +1,16 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Response,
-  Inject,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, Response, Inject } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/creat-category.dto';
 import { CategoryService } from './category.service';
-import { GetUserToken } from 'src/auth/aut.get-user.decorator';
-import { JwtAuthGuard } from 'src/auth/auth.auth-guards';
+import { UserFromRequet } from 'src/auth/aut.get-user.decorator';
 
 @Controller('category')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class CategoryController {
   constructor(@Inject() private catService: CategoryService) {}
   @Post()
   async addCategory(
     @Body() createCatdto: CreateCategoryDto,
-    @GetUserToken() user: any,
+    @UserFromRequet() user: any,
     @Response()
     res: any,
   ) {

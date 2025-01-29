@@ -12,7 +12,6 @@ import { DynamoDbModule } from './dynamo-db/dynamo-db.module';
 import { BudgetModule } from './budget/budget.module';
 import { CategoryModule } from './category/category.module';
 import { TransactionsModule } from './transactions/transactions.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({

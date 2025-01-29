@@ -44,4 +44,12 @@ export class UserService {
       throw new Error(e);
     }
   }
+
+  async findOneBy(condiotn: { [key: string]: unknown }) {
+    try {
+      return this.userRepository.findOneBy(condiotn);
+    } catch (e: any) {
+      throw new Error(e.message);
+    }
+  }
 }

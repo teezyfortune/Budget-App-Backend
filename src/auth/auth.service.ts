@@ -45,11 +45,15 @@ export class AuthService {
   }
 
   async login(user: IUserResponse) {
-    const payload = { email: user.email, sub: user.id };
-    return {
-      data: user,
-      token: this.getUserToken(payload),
-    };
+    try {
+      const payload = { email: user.email, sub: user.id };
+      return {
+        data: user,
+        token: this.getUserToken(payload),
+      };
+    } catch (e: any) {
+      throw new Error(e);
+    }
   }
   private signToken(payload: any, options: IjwtExpiresInsOption): string {
     return this.jwtService.sign(payload, options);
